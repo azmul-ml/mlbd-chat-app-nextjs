@@ -43,7 +43,7 @@ What folder organization strategy are followed?
 
 What frameworks are followed?
 
-- [Create React App](https://github.com/facebook/create-react-app)
+- [Nextjs](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/): Programming meta-language for Javascript providing type-safety and maintainability.
 
 ## 🔗 Useful links

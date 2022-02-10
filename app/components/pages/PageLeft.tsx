@@ -63,11 +63,11 @@ export const PageLeft = ({ styles }: { styles: any }) => {
   }, [getGroups]);
 
   useEffect(() => {
-    if (!router.query.roomId && myGroups[0]) {
+    if (!router.query.roomId && myGroups) {
       console.log(router.query.roomId);
       router.push(`/room/${myGroups[0]?.id}`);
     }
-  }, [router.query.roomId, myGroups[0]]);
+  }, [myGroups, router, router.query.roomId]);
 
   return (
     <Col xs={0} sm={0} md={6} lg={6} xl={6} xxl={6} className={styles.chatLeft}>

@@ -1,34 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MLDB Chat APP FE - Next.js
 
-## Getting Started
+## 📖 Project description
 
-First, run the development server:
+A chat messaging app built using Next.js.
 
-```bash
-npm run dev
-# or
-yarn dev
+## 📖 Setup
+### 1. Chat Server
+
+Setup Chat Server in locally download it from the [Repo](https://github.com/monstar-lab-bd/mlbd-chat-api-nodejs). Recommended version is 1.1.0
+
+### 2. Frontend Setup
+Install dependencies:
+- `yarn install`
+
+With the .env file:
+```.env
+NODE_ENV=
+NEXT_PUBLIC_API_HOST=
+NEXT_PUBLIC_API_HOST_LOGIN=
 ```
+Modify the following fields to point to the environment to work in. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `NODE_ENV`: This indicated app running environment.
+- `NEXT_PUBLIC_API_HOST`: This is the url to the api that represents Chat services.
+- `NEXT_PUBLIC_API_HOST_LOGIN`: This is the url to the api that represents Users services. 
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Run the development server
+- `yarn dev`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+To build for production:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- `yarn build`
 
-## Learn More
+## 🏯 Architecture & frameworks
+What architecture does the project follow?
 
-To learn more about Next.js, take a look at the following resources:
+- Unidirectional User Interface Architecture
+- Redux
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+What folder organization strategy are followed?
+- Feature First Organization (you can read [great article](https://medium.com/front-end-weekly/the-secret-to-organization-in-functional-programming-913484e85fc9) about this)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+What frameworks are followed?
 
-## Deploy on Vercel
+- [Create React App](https://github.com/facebook/create-react-app)
+- [TypeScript](https://www.typescriptlang.org/): Programming meta-language for Javascript providing type-safety and maintainability.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔗 Useful links
+- [Trello - MLBD Chat](https://trello.com/en)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 💻 Contributors
+- [@somratAtSekaiLab](https://github.com/somratAtSekaiLab)
+- [@shimul](https://github.com/shimul)
+- [@mamun](https://github.com/mamum)
+- [@faquraeshi](https://github.com/faquraeshi)
+- [@azmul-ml](https://github.com/azmul-ml)

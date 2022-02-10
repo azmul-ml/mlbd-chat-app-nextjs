@@ -1,0 +1,541 @@
+/* Styles start Mamun */
+
+.chat {
+  &Start {
+    bottom: 0;
+    position: fixed;
+    right: 0;
+
+    button {
+      color: #0e3752;
+      font-size: 50px;
+      height: auto;
+
+      &:hover {
+        color: lighten(#0e3752, 10);
+      }
+    }
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &Main {
+    bottom: 0;
+    display: flex;
+    height: 100vh;
+
+    &Fullscreen {
+      .chatClose {
+        top: -32px;
+
+        button {
+          font-size: 22px;
+          height: 36px;
+        }
+      }
+    }
+  }
+
+  &Left {
+    background: #0e3752;
+
+    &Header {
+      background: #0b2e45;
+      display: flex;
+      color: #ffffff;
+      padding: 10px 15px;
+    }
+
+    &Avatar {
+      border: 2px solid #ffffff;
+      margin-right: 20px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    &Name {
+      flex: 1;
+    }
+
+    &Title {
+      @at-root h4#{&} {
+        color: #fff;
+        margin: 0;
+      }
+    }
+
+    &Details {
+      height: calc(100vh - 94px);
+      overflow: auto;
+
+      &Header {
+        align-items: center;
+        display: flex;
+        padding: 6px 15px;
+
+        @at-root h4#{&} {
+          color: #a9bbc7;
+          font-size: 16px;
+          margin: 0;
+        }
+
+        &Text {
+          margin: 0 8px;
+          font-size: 16px;
+        }
+
+        &Link {
+          border-bottom: 1px solid #19415b;
+          cursor: pointer;
+          margin: 0;
+        }
+
+        button {
+          padding: 0;
+          color: #a9bbc7;
+
+          &:hover {
+            color: #fff;
+          }
+        }
+
+        a {
+          color: #a9bbc7;
+          flex: 1;
+
+          &:hover {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  &Status {
+    align-items: center;
+    display: flex;
+
+    &Dot {
+      border-radius: 50%;
+      height: 8px;
+      margin: 0 6px 0 0;
+      width: 8px;
+
+      &Busy {
+        background: #c50101;
+      }
+
+      &Online {
+        background: #01c53f;
+      }
+    }
+
+    &Text {
+      font-size: 12px;
+
+      i {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  &Name {
+    &List {
+      ul {
+        li {
+          padding: 0;
+          position: relative;
+          border-bottom: none !important;
+          display: block;
+
+          &::before {
+            border: 1px solid #60737f;
+            border-radius: 50%;
+            content: "";
+            height: 8px;
+            left: 13px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+          }
+
+          &.newMessage {
+            a {
+              color: #ffffff;
+              font-weight: bold;
+            }
+          }
+
+          &.active {
+            a {
+              background: #0b2e45;
+            }
+          }
+
+          &.online {
+            a {
+              color: #a9bbc7;
+            }
+
+            &::before {
+              background: #01c53f;
+              border: none;
+            }
+          }
+
+          a {
+            display: block;
+            color: #60737f;
+            padding: 5px 15px 5px 32px;
+
+            &:hover {
+              background: #19415b;
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &Group {
+    &List {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        padding: 0;
+        border-bottom: none !important;
+
+        a {
+          color: #a9bbc7;
+          display: block;
+          padding: 5px 15px;
+          flex: 1;
+
+          &:hover {
+            background: #19415b;
+            color: #fff;
+            text-decoration: none;
+          }
+
+          i {
+            margin: 0 8px 0 0;
+            font-size: 10px;
+          }
+        }
+
+        &.active {
+          a {
+            background: #0b2e45;
+            text-decoration: none;
+          }
+        }
+
+        &.newMessage {
+          font-weight: bold;
+
+          a {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  &Message {
+    &Count {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: normal;
+      margin: 0 0 0 10px;
+
+      &::before {
+        background: #c50101;
+        border-radius: 50%;
+        content: "";
+        display: inline-block;
+        height: 8px;
+        margin: 0 5px 0 0;
+        width: 8px;
+      }
+    }
+  }
+
+  &WindowActBtns {
+    align-self: flex-end;
+    background: #5f5f5f;
+
+    button {
+      background: #fff;
+      align-items: center;
+      border-radius: 0;
+      margin: 0 0 0 1px;
+      padding: 0 6px;
+      color: #5f5f5f;
+      background: #cccccc;
+      height: 24px;
+      transition: 0s;
+    }
+  }
+
+  &Right {
+    color: #212529;
+    display: flex;
+    background: #fff;
+    flex-flow: column;
+    flex: 1;
+    height: 100vh;
+
+    &Header {
+      align-items: center;
+      border-bottom: 1px solid #efefef;
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 20px;
+      border-top: 1px solid #efefef;
+      border-bottom: 1px solid #efefef;
+
+      &Title {
+        align-items: center;
+        display: flex;
+        flex: 1;
+      }
+
+      &Action {
+        align-items: center;
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        button {
+          font-size: 20px;
+          padding: 0 7px;
+          color: #666;
+        }
+      }
+    }
+
+    &Avatar {
+      border: 2px solid #979797;
+      margin: 0 10px 0 0;
+    }
+  }
+
+  &Window {
+    flex: 1 1 calc(100vh - 148px);
+    overflow: auto;
+    padding: 20px 0;
+  }
+
+  &Message {
+    margin: 0 0 20px;
+    padding: 0 20px;
+
+    &Name {
+      align-items: center;
+      color: #4c4c4c;
+      display: flex;
+      font-size: 16px;
+    }
+
+    &Time {
+      color: #979797;
+      display: inline-block;
+      font-size: 14px;
+      margin: 0 0 0 15px;
+
+      span:first-of-type {
+        margin: 0 10px 0 0;
+      }
+    }
+
+    &Text {
+      background: #f5f5f5;
+      border: 1px solid #efefef;
+      border-radius: 3px;
+      margin: 0 20px 0 0;
+      max-width: 80%;
+      padding: 7px 15px;
+      position: relative;
+
+      &::before {
+        border: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-left: 0 solid transparent;
+        border-bottom: 10px solid #efefef;
+        bottom: 100%;
+        content: "";
+        height: 0;
+        left: 15px;
+        position: absolute;
+        width: 0;
+      }
+
+      &Panel {
+        display: flex;
+        padding: 20px 0 0;
+
+        &:hover .chatMessageAction {
+          display: block;
+        }
+      }
+    }
+
+    &Action {
+      display: none;
+      padding: 7px 0 0;
+      position: relative;
+
+      &Items {
+        background: #fff;
+        border: 1px solid #efefef;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        margin: 0;
+        padding: 0 5px;
+        position: absolute;
+        transform: translateX(-50%);
+
+        &::before {
+          border: 5px solid transparent;
+          border-top: 8px solid #efefef;
+          content: "";
+          left: 50%;
+          position: absolute;
+          top: 100%;
+          transform: translateX(-50%);
+        }
+
+        ul {
+          display: flex;
+
+          li {
+            border-bottom: none !important;
+            padding: 0;
+          }
+        }
+
+        button {
+          padding: 0 5px;
+          color: #666;
+        }
+      }
+    }
+
+    &Receiver {
+      .chatMessageName {
+        justify-content: flex-end;
+      }
+
+      .chatMessageTime {
+        margin: 0 15px 0 0;
+        order: -1;
+      }
+
+      .chatMessageTextPanel {
+        justify-content: flex-end;
+      }
+
+      .chatMessageText {
+        background: #e9f3f9;
+        border: 1px solid #dee8ef;
+        margin: 0 0 0 20px;
+
+        &::before {
+          border-right: 0 solid transparent;
+          border-left: 10px solid transparent;
+          border-bottom-color: #dee8ef;
+          left: auto;
+          right: 15px;
+        }
+      }
+
+      .chatMessageAction {
+        order: -1;
+      }
+    }
+
+    &Date {
+      background: #efefef;
+      height: 1px;
+      margin: 30px 0 20px;
+      position: relative;
+
+      span {
+        background: #fff;
+        left: 50%;
+        margin: -3px 0 0;
+        padding: 0 10px;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  &Compose {
+    display: flex;
+
+    button {
+      background: #0e3752;
+      border-radius: 0;
+      color: #ffffff;
+      height: auto;
+      padding: 10px 20px;
+      text-transform: uppercase;
+    }
+
+    &Panel {
+      border-top: 1px solid #efefef;
+    }
+
+    &Actions {
+      align-items: center;
+      background: #efefef;
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 20px;
+
+      &Attachments {
+        button {
+          color: #666;
+          font-size: 18px;
+          padding: 0 5px;
+        }
+      }
+    }
+  }
+}
+
+.textArea {
+  border: none;
+  border-radius: 0;
+  flex: 1;
+  height: 50px !important;
+  margin: 0 !important;
+  padding: 5px 20px;
+  resize: none;
+}
+
+/* Styles start Mamun */
+
+/* some helper classes */
+.chBlock {
+  display: block;
+}
+.chTable {
+  display: table;
+}
+.chInline {
+  display: inline;
+  &Block {
+    display: inline-block;
+  }
+  &Flex {
+    display: inline-flex;
+  }
+}

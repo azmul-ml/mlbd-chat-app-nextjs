@@ -8,9 +8,15 @@ import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
-      {cookie.load(AUTH_ACCESS_TOKEN) ? <MainLayout /> : <Login />}
-    </div>
+    <>
+      {cookie.load(AUTH_ACCESS_TOKEN) ? (
+        <MainLayout />
+      ) : (
+        <div className={styles.container}>
+          <Login />
+        </div>
+      )}
+    </>
   );
 };
 

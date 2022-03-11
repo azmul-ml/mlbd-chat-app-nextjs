@@ -206,24 +206,6 @@
         padding: 0;
         border-bottom: none !important;
 
-        a {
-          color: #a9bbc7;
-          display: block;
-          padding: 5px 15px;
-          flex: 1;
-
-          &:hover {
-            background: #19415b;
-            color: #fff;
-            text-decoration: none;
-          }
-
-          i {
-            margin: 0 8px 0 0;
-            font-size: 10px;
-          }
-        }
-
         &.active {
           a {
             background: #0b2e45;
@@ -453,6 +435,7 @@
 
       .chatMessageAction {
         order: -1;
+        margin-right: 20px;
       }
     }
 
@@ -506,6 +489,22 @@
       }
     }
   }
+}
+
+.groupSelect {
+  &:hover {
+    background: #19415b;
+    color: #fff;
+    text-decoration: none;
+  }
+  &Selected {
+    background: #0b2e45;
+    text-decoration: none;
+  }
+}
+
+.groupList {
+  height: 10px;
 }
 
 .textArea {

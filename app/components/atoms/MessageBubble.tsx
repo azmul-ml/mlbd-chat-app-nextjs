@@ -16,7 +16,6 @@ export default function MessageBubble({
   userData: any;
 }) {
   const users = useAppSelector((state: RootState) => state.user);
-
   const isMe = message.sender_id === userData?.user_id;
   const getSenderData = (senderId: string) =>
     users.filter((usr: IAllUserRecieved) => usr._id === senderId);

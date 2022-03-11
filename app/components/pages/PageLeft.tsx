@@ -1,55 +1,48 @@
+import React, { useCallback, useEffect, useState } from "react";
 import { Avatar, Button, Col, List, Row } from "antd";
 import Title from "antd/lib/typography/Title";
-import Link from "next/link";
-import React, { useCallback, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import cookie from "react-cookies";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { AppIcons } from "../AppIcons";
-import {
-  getSingleGroup,
-  singleGroupSlice,
-} from "../../features/chat/group/redux/get-single-group.slice";
+
 import { AUTH_ACCESS_TOKEN } from "../../features/auth/constants/auth.keys";
 import { useRouter } from "next/router";
 import { getMyGroup } from "../../features/chat/group/redux/getMy-group";
-import { Collapsible } from "../atoms/Collapsible";
-import { getGroupMessages } from "../../features/chat/group/redux/get-group.massages.slice";
+import Modal from "../../features/chat/group/screens/components/CreateGroupModal";
+import { exClientChat } from "../../features/chat/redux/chat-client.slice";
+import { RootState } from "../../redux/store";
 
 export const PageLeft = ({ styles }: { styles: any }) => {
   const [myGroups, setMyGroups] = useState([]) as any;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const userData: any = useAppSelector((state) => state.auth.data);
 
+  const userData: any = useAppSelector((state) => state.auth.data);
+  const chatInit = useAppSelector((state) => state.chatInit);
+  const instantGroup = useAppSelector(
+    (state: RootState) => state.onAddedToGroup.data
+  );
   let router = useRouter();
   const dispatch = useAppDispatch();
-
   const cx = classNames.bind(styles);
+  const currentGroupId = router.query.roomId;
 
-  const handleGroupLink = async (id: string) => {
-    const { addSingleGroup } = singleGroupSlice.actions;
-    const token = cookie.load(AUTH_ACCESS_TOKEN);
-    const data = {
-      group_id: id,
-      token,
-    };
-    const res = await dispatch(getSingleGroup(data));
-    await dispatch(addSingleGroup(res.payload));
-    // await setGroupItem(res.payload);
-    res.payload && router.push(`/room/${id}`);
+  const handleGroupLink = (id: string) => {
+    router.push(
+      {
+        pathname: "",
+        query: {
+          roomId: id,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
   const getGroups = useCallback(async () => {
     const token = cookie.load(AUTH_ACCESS_TOKEN);
-
     const data: any = {
       token,
     };
@@ -59,15 +52,41 @@ export const PageLeft = ({ styles }: { styles: any }) => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (instantGroup) {
+      setMyGroups([...myGroups, instantGroup]);
+    }
+  }, [instantGroup]);
+
+  useEffect(() => {
+    router.push(
+      {
+        pathname: "",
+        query: {
+          roomId: myGroups[0]?.id,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [myGroups]);
+
+  useEffect(() => {
+    if (!chatInit.data) {
+      exClientChat(dispatch);
+    }
+  }, [chatInit.data, dispatch]);
+
+  useEffect(() => {
     getGroups();
   }, [getGroups]);
 
-  useEffect(() => {
-    if (!router.query.roomId && myGroups) {
-      console.log(router.query.roomId);
-      router.push(`/room/${myGroups[0]?.id}`);
-    }
-  }, [myGroups, router, router.query.roomId]);
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
   return (
     <Col xs={0} sm={0} md={6} lg={6} xl={6} xxl={6} className={styles.chatLeft}>
@@ -80,50 +99,10 @@ export const PageLeft = ({ styles }: { styles: any }) => {
         >
           {userData?.name?.charAt(0).toUpperCase() + userData.name?.slice(1)}
         </Title>
-        <Col className={styles.chatLeftName}>
-          {/* <Col span={24} className={styles.chatStatus}>
-            <span
-              className={styles.chatStatusDot + " " + styles.chatStatusDotBusy}
-            ></span>
-            <span className={styles.chatStatusText}>
-              Busy
-              {AppIcons.CaretDownOutlined}
-            </span>
-          </Col> */}
-        </Col>
+        <Col className={styles.chatLeftName}></Col>
       </Row>
 
       <Row className={cx("chatLeftDetails", "chBlock")}>
-        {/* <Row
-          className={
-            styles.chatLeftDetailsHeader +
-            " " +
-            styles.chatLeftDetailsHeaderLink
-          }
-        >
-          <Link href="/">
-            <a>
-              {AppIcons.MessageOutlined}
-              <span className={styles.chatLeftDetailsHeaderText}>Threads</span>
-            </a>
-          </Link>
-        </Row>
-
-        <Row
-          className={
-            styles.chatLeftDetailsHeader +
-            " " +
-            styles.chatLeftDetailsHeaderLink
-          }
-        >
-          <Link href="/">
-            <a>
-              {AppIcons.EditOutlined}
-              <span className={styles.chatLeftDetailsHeaderText}>Draft</span>
-            </a>
-          </Link>
-        </Row> */}
-
         <Row
           className={
             styles.chatLeftDetailsHeader +
@@ -146,10 +125,15 @@ export const PageLeft = ({ styles }: { styles: any }) => {
 
         <Row className={styles.chatGroupList}>
           <List
+            grid={{ column: 1, xs: 1 }}
             dataSource={myGroups}
             renderItem={(item: any) => (
-              <List.Item>
-                <div>
+              <List.Item className={styles.groupList}>
+                <div
+                  className={`${styles.groupSelect} ${
+                    currentGroupId === item.id ? styles.groupSelectSelected : ""
+                  }`}
+                >
                   <span
                     style={{ marginLeft: "20px", cursor: "pointer" }}
                     onClick={() => handleGroupLink(item.id)}
@@ -157,13 +141,21 @@ export const PageLeft = ({ styles }: { styles: any }) => {
                     {item.meta.name}
                   </span>
                   <span className={styles.chatMessageCount}>
-                    {myGroups.length}
+                    {item.members?.length}
                   </span>
                 </div>
               </List.Item>
             )}
           />
         </Row>
+        {modalIsOpen && (
+          <Modal
+            style={styles}
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            handleGroupModal={setIsOpen}
+          />
+        )}
       </Row>
     </Col>
   );

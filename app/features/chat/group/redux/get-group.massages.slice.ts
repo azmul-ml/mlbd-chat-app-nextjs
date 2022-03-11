@@ -1,26 +1,32 @@
+import { IMessageReceive } from "./../types/group-chat.types";
 import { getGroupMessagesApi } from "../api/group-chat.api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   singleGroup: {},
+  messages: null,
 };
-export const getGroupMessagesSlice = createSlice({
-  name: "single-group",
-  initialState,
-  reducers: {
-    addSingleGroup: (state, action: any) => {
-      return { ...action.payload };
-    },
-  },
-});
 
 export const getGroupMessages = createAsyncThunk(
-  "get/group",
+  "get/group-messages",
   async (data: any) => {
     const res = await getGroupMessagesApi(data);
-    return res.data;
+    return res.data.reverse();
   }
-  // (err) => err.message
 );
+
+// export const addSingleGroup = createAsyncThunk("get/single-group", async (data: any) => {
+//   const res = await
+// })
+export const getGroupMessagesSlice = createSlice({
+  name: "group-messages",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getGroupMessages.fulfilled, (state, action) => {
+      state.messages = action.payload || null;
+    });
+  },
+});
 
 export default getGroupMessagesSlice.reducer;

@@ -24,8 +24,7 @@ export default function Login() {
           token: cookie.load(AUTH_ACCESS_TOKEN),
         };
         const res = await dispatch(getMyGroup(data));
-        console.log(res);
-        router.push(`/room/${res.payload[0].id}`);
+        router.push(`/`);
       }
     } finally {
       setisSubmit(false);

@@ -3,7 +3,10 @@ import { ChatClient } from "@mlbd/chat-client";
 
 import { tokenProvider, pusherOptions } from "../helpers/chat.helpers";
 import { store } from "../../../redux/store";
-import { onClientStablish } from "./onMessageRecieve";
+import { onMessageReceiveTunk } from "./onMessageRecieve";
+import { onChatInitSlice } from "./chat.initialize.flag.slice";
+import { IMessageRecieve } from "../group/types/group-chat.types";
+import { onAddedToGroupThunk } from "./onAddedToGroup";
 
 let initialClient: any = null;
 
@@ -14,7 +17,12 @@ export const chatClient = createSlice({
 });
 
 const handleSubscriptions = (client: any, dispatch: any) => {
-  onClientStablish(client, dispatch);
+  client.onMessageRecieved((res: IMessageRecieve) => {
+    dispatch(onMessageReceiveTunk(res));
+  });
+  client.onAddedToGroup((res: any) => {
+    dispatch(onAddedToGroupThunk(res));
+  });
 };
 
 export const exClientChat = (dispatch: any) => {
@@ -26,6 +34,7 @@ export const exClientChat = (dispatch: any) => {
 
   initialClient.connect().then(() => {
     handleSubscriptions(initialClient, dispatch);
+    dispatch(onChatInitSlice.actions.onChatInit());
     console.log(">>>>Stablished>>>>");
   });
 };

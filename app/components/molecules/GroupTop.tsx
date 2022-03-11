@@ -1,5 +1,7 @@
 import { Avatar, Button, Col, Popover, Row, Select } from "antd";
+import { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
+import qs, { ParseOptions, StringifyOptions } from "query-string";
 
 import React, { useEffect, useState } from "react";
 import cookie from "react-cookies";
@@ -9,9 +11,13 @@ import {
   getSingleGroup,
   singleGroupSlice,
 } from "../../features/chat/group/redux/get-single-group.slice";
+import GroupDetailModal from "../../features/chat/group/screens/components/GroupDetailModal";
+import Logout from "../../features/chat/group/screens/components/Logout";
+import { IGroupResponse } from "../../features/chat/group/types/group-chat.types";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { AppIcons } from "../AppIcons";
+import CustomModal from "./Modal";
 
 const { Option } = Select;
 
@@ -22,30 +28,44 @@ export const GroupTop = ({
   styles: any;
   allUsers: any;
 }) => {
-  const [visible, setVisible] = useState(false);
-  const [currentGroup, setCurrentGroup] = useState({}) as any;
+  const [visibleProfile, setVisibleProfile] = useState(false);
+
+  const [currentGroup, setCurrentGroup] = useState<IGroupResponse | null>(null);
   const dispatch = useAppDispatch();
 
   const token = cookie.load(AUTH_ACCESS_TOKEN);
   let router = useRouter();
 
-  function onSearch(val: any) {
-    console.log("search:", val);
-  }
-  const handleVisibleChange = (visible: any) => {
-    setVisible(true);
+  const handleVisibleChange = async () => {
+    router.push({
+      pathname: "",
+      query: {
+        roomId: router.query.roomId,
+        modal: "groupDetail",
+      },
+    });
   };
-  function onChange(value: any) {
-    console.log(`selected ${value}`);
-  }
+  const handleVisibleChangeProfile = () => {
+    setVisibleProfile(!visibleProfile);
+  };
+
   const getCurrentGroup = async () => {
     const data = {
       group_id: router.query.roomId,
       token,
     };
 
-    const res = await dispatch(getSingleGroup(data));
+    const res: any = await dispatch(getSingleGroup(data));
     setCurrentGroup(res.payload);
+  };
+
+  const closeModal = () => {
+    router.push({
+      pathname: "",
+      query: {
+        roomId: router.query.roomId,
+      },
+    });
   };
   useEffect(() => {
     getCurrentGroup();
@@ -54,53 +74,34 @@ export const GroupTop = ({
     <Row className={styles.chatRightHeader}>
       <Col className={styles.chatRightHeaderTitle}>
         <Col className={styles.chatRightHeaderTitleText}>
-          {currentGroup?.meta?.name}
+          <label style={{ cursor: "pointer" }} onClick={handleVisibleChange}>
+            {currentGroup?.meta.name}
+          </label>
         </Col>
       </Col>
 
       <Col className={styles.chatRightHeaderAction}>
         <Button type="link" icon={AppIcons.SearchOutlined}></Button>
         <Button type="link" icon={AppIcons.PhoneFilled}></Button>
-        <Popover
-          content={
-            <Select
-              showSearch
-              mode="multiple"
-              style={{ width: 200 }}
-              placeholder="Select a person"
-              optionFilterProp="children"
-              onChange={onChange}
-              // onFocus={onFocus}
-              // onBlur={onBlur}
-              onSearch={onSearch}
-              filterOption={(input, option: any) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {allUsers?.map((user: any) => (
-                <Option key={user} value={user._id}>
-                  {user.name}
-                </Option>
-              ))}
-              {/* <Option value="jack">Jack</Option>
-          <Option value="lucy">Lucy</Option>
-          <Option value="tom">Tom</Option> */}
-            </Select>
-          }
-          title="Title"
-          trigger="click"
-          visible={visible}
-          onVisibleChange={handleVisibleChange}
-        >
-          <Button
-            type="link"
-            onClick={() => console.log("add member")}
-            icon={AppIcons.UserAddOutlined}
-          ></Button>
-          {/* <Button type="primary">Click me</Button> */}
-        </Popover>
-        <Button type="link" icon={AppIcons.InfoCircleFilled}></Button>
+
+        <Button
+          type="link"
+          onClick={handleVisibleChange}
+          icon={AppIcons.UserAddOutlined}
+        ></Button>
+        <Logout
+          router={router}
+          visibleProfile={visibleProfile}
+          handleVisibleChangeProfile={handleVisibleChangeProfile}
+        />
       </Col>
+      {router.query.modal === "groupDetail" && (
+        <GroupDetailModal
+          isOpen={router.query.modal === "groupDetail"}
+          onRequestClose={closeModal}
+          groupDetail={currentGroup}
+        ></GroupDetailModal>
+      )}
     </Row>
   );
 };

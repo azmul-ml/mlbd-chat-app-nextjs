@@ -8,12 +8,10 @@ import { AUTH_ACCESS_TOKEN } from "../constants/auth.keys";
 import { LoginCredentials, RegistrationCredentials } from "../types/auth.types";
 const initialState = {
   data: {
-    username: "",
+    profile_image_link: null,
+    name: "",
     email: "",
-    isFething: false,
-    isSuccess: false,
-    isError: false,
-    errormessage: "",
+    user_id: "",
   },
 };
 
@@ -23,9 +21,9 @@ export const loginUser = createAsyncThunk(
     loginApi(credentials).then(
       (res: any) => {
         cookie.save(AUTH_ACCESS_TOKEN, res.data.token, {});
-        if (res.data) {
-          exClientChat(dispatch);
-        }
+        // if (res.data) {
+        //   exClientChat(dispatch);
+        // }
         return res.data;
       },
       (err) => err.message

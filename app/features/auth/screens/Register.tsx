@@ -38,6 +38,7 @@ export default function Register() {
         form={form}
         onFinish={handleSubmit}
         layout="vertical"
+        initialValues={{ name: "", email: "", password: "", roles: ["admin"] }}
       >
         <Row justify="center">
           <Col md={10} sm={24}>

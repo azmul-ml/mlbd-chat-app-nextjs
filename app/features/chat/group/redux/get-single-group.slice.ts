@@ -10,7 +10,6 @@ export const getSingleGroup = createAsyncThunk(
   "get/group",
   async (data: any) => {
     const res = await getSingleGroupApi(data);
-    console.log(res);
     return res.data;
   }
   // (err) => err.message

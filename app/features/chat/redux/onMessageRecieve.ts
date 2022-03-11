@@ -1,23 +1,26 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const onClientStablish = (client: any, dispatch: any) => {
-  client.onMessageRecieved((res: any) => dispatch(onMessageReceiveTunk(res)));
-};
 export const onMessageReceiveTunk = createAsyncThunk(
-  "chat/client",
-  (client: any) => client
+  "chat/receive-message",
+  (message: any) => {
+    return message;
+  }
 );
 const initialState = {
-  data: [],
+  data: null,
 };
 
 export const onMessageRecieveSlice = createSlice({
   name: "on-message-recieve",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    resetOnMessageReceive: (state) => {
+      state.data = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(onMessageReceiveTunk.fulfilled, (state, action) => {
-      state.data = action.payload || [];
+      state.data = action.payload || null;
     });
   },
 });

@@ -25,13 +25,17 @@ export interface ISignleGroup {
 export interface IGroupResponse {
   created_at: string;
   id: string;
-  last_message_at: string;
+  last_message_at: IMessageRecieve;
   members: string[];
-  meta: any;
+  meta: {
+    name: string;
+    talk_room_type: string;
+  };
+  status?: number;
 }
 
 export interface ISentMessage {
-  group_id: string;
+  group_id: string | undefined | string[];
   message: string;
   token: string;
 }
@@ -53,4 +57,5 @@ export interface IMessageRecieve {
   sender_id: string;
   sent_at: string;
   updated_at: string;
+  recipients: { has_read: boolean; user_id: string }[];
 }

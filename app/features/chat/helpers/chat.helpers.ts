@@ -2,11 +2,6 @@ import { TokenProvider } from "@mlbd/chat-client";
 import cookie from "react-cookies";
 import { AUTH_ACCESS_TOKEN } from "../../auth/constants/auth.keys";
 
-// const getAccessToken = async () => {
-//   const token = await cookie.load(AUTH_ACCESS_TOKEN);
-//   return token;
-// };
-
 /**
  * Token provider for chat client init
  */

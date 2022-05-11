@@ -1,3 +1,3 @@
-import MainWindow from "../../app/components/MainWindow";
+import MainWindow from "../../src/components/MainWindow";
 
 export default MainWindow;

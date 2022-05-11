@@ -36,18 +36,18 @@
 
   &Left {
     background: #0e3752;
+    height: 100vh;
 
     &Header {
       background: #0b2e45;
       display: flex;
-      color: #ffffff;
+      color: #eeeeee;
       padding: 10px 15px;
     }
 
     &Avatar {
-      border: 2px solid #ffffff;
-      margin-right: 20px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      font-size: 250%;
+      width: 50px;
     }
 
     &Name {
@@ -69,6 +69,7 @@
         align-items: center;
         display: flex;
         padding: 6px 15px;
+        background: #0e3752;
 
         @at-root h4#{&} {
           color: #a9bbc7;
@@ -82,7 +83,7 @@
         }
 
         &Link {
-          border-bottom: 1px solid #19415b;
+          border-bottom: 2px solid #19415b;
           cursor: pointer;
           margin: 0;
         }
@@ -269,13 +270,12 @@
     height: 100vh;
 
     &Header {
+      background: #eeeeee;
       align-items: center;
-      border-bottom: 1px solid #efefef;
       display: flex;
       justify-content: space-between;
       padding: 7px 20px;
-      border-top: 1px solid #efefef;
-      border-bottom: 1px solid #efefef;
+      border-bottom: 0.5px solid #0b2e45;
 
       &Title {
         align-items: center;
@@ -333,8 +333,8 @@
     }
 
     &Text {
-      background: #f5f5f5;
-      border: 1px solid #efefef;
+      background: #eeeeee;
+      border: 1px solid #0b2e45;
       border-radius: 3px;
       margin: 0 20px 0 0;
       max-width: 80%;
@@ -345,7 +345,7 @@
         border: 10px solid transparent;
         border-right: 10px solid transparent;
         border-left: 0 solid transparent;
-        border-bottom: 10px solid #efefef;
+        border-bottom: 10px solid #0b2e45;
         bottom: 100%;
         content: "";
         height: 0;
@@ -371,17 +371,17 @@
 
       &Items {
         background: #fff;
-        border: 1px solid #efefef;
+        border: 1px solid #0b2e45;
         bottom: calc(100% + 10px);
         left: 50%;
         margin: 0;
-        padding: 0 5px;
+        padding: 0 15px;
         position: absolute;
         transform: translateX(-50%);
 
         &::before {
           border: 5px solid transparent;
-          border-top: 8px solid #efefef;
+          border-top: 8px solid #0b2e45;
           content: "";
           left: 50%;
           position: absolute;
@@ -420,14 +420,14 @@
       }
 
       .chatMessageText {
-        background: #e9f3f9;
-        border: 1px solid #dee8ef;
+        background: #eeeeee;
+        border: 1px solid #0b2e45;
         margin: 0 0 0 20px;
 
         &::before {
           border-right: 0 solid transparent;
           border-left: 10px solid transparent;
-          border-bottom-color: #dee8ef;
+          border-bottom-color: #0b2e45;
           left: auto;
           right: 15px;
         }
@@ -461,7 +461,7 @@
     display: flex;
 
     button {
-      background: #0e3752;
+      background: #0b2e45;
       border-radius: 0;
       color: #ffffff;
       height: auto;
@@ -492,15 +492,26 @@
 }
 
 .groupSelect {
+  color: #eeeeee !important;
   &:hover {
-    background: #19415b;
-    color: #fff;
+    background: #062336;
+    color: #eeeeee;
     text-decoration: none;
   }
   &Selected {
-    background: #0b2e45;
+    background: #062336;
     text-decoration: none;
   }
+}
+
+.chatDateDecoration {
+  width: 150px;
+  border-radius: 100px/50px;
+  background: #062336;
+  color: #eeeeee;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .groupList {

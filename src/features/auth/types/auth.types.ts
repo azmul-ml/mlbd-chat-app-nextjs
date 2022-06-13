@@ -17,6 +17,7 @@ export type RegistrationCredentials = {
   name: string;
   email: string;
   password: string;
+  confirm?: string;
   roles: Array<string>;
 };
 export interface ILoggedInUse {

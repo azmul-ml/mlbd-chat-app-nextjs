@@ -1,8 +1,92 @@
 .container {
+  width: 100vw !important;
+}
+
+.loginButton {
+  width: 150px;
+  font-weight: 600;
+  &:hover {
+    background-color: #4d504f;
+    color: #fff;
+    border: 1px solid #e7e9eb;
+  }
+
+  &:focus {
+    background-color: #4d504f;
+    color: #fff;
+    border: 1px solid #e7e9eb;
+  }
+
+  &:active {
+    background-color: #4d504f;
+    color: #fff;
+    border: 1px solid #e7e9eb;
+  }
+}
+
+.innerContainer {
   display: flex;
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  margin-top: 10%;
-  width: 100vw !important;
+  height: 100vh;
+}
+
+.innerContainer2 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100vh;
+  border-left: 1px solid #e7e9eb;
+  background-color: #e7e9eb;
+
+  @media screen and (max-width: 768px) {
+    border-left: none;
+    border-top: 1px solid #e7e9eb;
+  }
+}
+
+.chatTitle {
+  font-weight: 800;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #4d504f;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+  border-radius: 10px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #f5f5f5;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.innerCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 193px;
+
+  img {
+    border-radius: 30px;
+  }
+
+  p {
+    margin-left: 18px;
+  }
+
+  span {
+    font-size: 20px;
+    margin-top: 1px;
+    margin-left: 18px;
+  }
 }

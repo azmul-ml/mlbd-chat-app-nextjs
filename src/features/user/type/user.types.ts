@@ -2,7 +2,7 @@ export interface IGetAllUser {
   email: string;
   name: string;
   profile_image_link: string | null;
-  roles: [string];
+  role: [string];
   _id: string;
 }
 

@@ -1,10 +1,7 @@
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import cookie from "react-cookies";
+import { Col, Row } from "antd";
 
-import { AUTH_ACCESS_TOKEN } from "../../src/features/auth/constants/auth.keys";
 import Login from "./../../src/features/auth/screens/Login";
+import type { NextPage } from "next";
 import Styles from "../../styles/Login.module.scss";
 
 const LoginPage: NextPage = () => {

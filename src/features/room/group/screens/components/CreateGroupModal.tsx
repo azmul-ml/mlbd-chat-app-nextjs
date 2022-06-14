@@ -1,13 +1,13 @@
+import { Button, Col, Row, Select, Skeleton, Spin } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
-import { Row, Col, Button, Select, Skeleton, Spin } from "antd";
-import { Formik } from "formik";
-import { Input } from "formik-antd";
-
-import { ICreateGroupChat } from "../../types/group-chat.types";
 import { getUsers, userSlice } from "../../../../user/redux/user.slice";
 import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
-import { creatGroup } from "../../redux/create-group.slice";
+
 import CustomModal from "../../../../../components/common/atoms/Modal";
+import { Formik } from "formik";
+import { ICreateGroupChat } from "../../types/group-chat.types";
+import { Input } from "formik-antd";
+import { creatGroup } from "../../redux/create-group.slice";
 import router from "next/router";
 
 const { Option } = Select;
@@ -61,7 +61,7 @@ export default function CreateGroupModal({
   return (
     <>
       <CustomModal
-        title="Create Group"
+        title="Create Room"
         visible={isOpen}
         handleCancel={onRequestClose}
       >
@@ -102,7 +102,7 @@ export default function CreateGroupModal({
                 </Col>
                 <Col className="gutter-row" span={24}>
                   <Input
-                    placeholder="Group Name"
+                    placeholder="Room Name"
                     // style={{ width: "330px" }}
                     name="name"
                     onChange={handleChange}
@@ -116,7 +116,7 @@ export default function CreateGroupModal({
                 type="primary"
                 disabled={isSubmitting}
               >
-                Create Group
+                Create Room
               </Button>
             </form>
           )}

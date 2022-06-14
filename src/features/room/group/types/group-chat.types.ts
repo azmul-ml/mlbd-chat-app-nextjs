@@ -25,7 +25,8 @@ export interface ISignleGroup {
 export interface IGroupResponse {
   created_at: string;
   id: string;
-  last_message_at: IMessageRecieve;
+  last_message?: IMessageRecieve;
+  last_message_at: string;
   members: string[];
   meta: {
     name: string;

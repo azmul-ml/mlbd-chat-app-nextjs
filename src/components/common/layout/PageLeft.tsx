@@ -1,37 +1,27 @@
-import React, { useCallback, useEffect, useState, memo } from "react";
-import {
-  Avatar,
-  Button,
-  Col,
-  Divider,
-  List,
-  Row,
-  Skeleton,
-  Tooltip,
-} from "antd";
-import Title from "antd/lib/typography/Title";
-import classNames from "classnames/bind";
-import cookie from "react-cookies";
-import { UserOutlined } from "@ant-design/icons";
-
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { AppIcons } from "../../AppIcons";
-
-import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
-import { useRouter } from "next/router";
+import { Col, List, Row, Skeleton } from "antd";
+import { FormOutlined, UserOutlined } from "@ant-design/icons";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { differenceInDays, format } from "date-fns";
 import {
   getMyGroup,
   getMyGroupsSlice,
 } from "../../../features/room/group/redux/getMy-group";
-import Modal from "../../../features/room/group/screens/components/CreateGroupModal";
-import { exClientChat } from "../../../features/room/redux/chat-client.slice";
-import { RootState } from "../../../redux/store";
-import Item from "antd/lib/list/Item";
-import { onMessageRecieveSlice } from "../../../features/room/redux/onMessageRecieve";
-import Link from "next/link";
-import styles from "../../../../styles/layout.module.scss";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+
+import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
 import { IGroupResponse } from "../../../features/room/group/types/group-chat.types";
+import Image from "next/image";
+import Link from "next/link";
+import Modal from "../../../features/room/group/screens/components/CreateGroupModal";
+import { RootState } from "../../../redux/store";
+import Title from "antd/lib/typography/Title";
+import classNames from "classnames/bind";
+import cookie from "react-cookies";
 import { createGroupSlice } from "../../../features/room/group/redux/create-group.slice";
+import { exClientChat } from "../../../features/room/redux/chat-client.slice";
+import { onMessageRecieveSlice } from "../../../features/room/redux/onMessageRecieve";
+import styles from "../../../../styles/layout.module.scss";
+import { useRouter } from "next/router";
 
 const PageLeft = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -149,74 +139,91 @@ const PageLeft = () => {
   //   }
   // }, [openGroupModal]);
 
+  const formatDate = (date: string) => {
+    const duration = differenceInDays(new Date(date), new Date());
+
+    let lastDateMessageAt;
+
+    if (duration > 0) {
+      lastDateMessageAt = format(new Date(date), "dd/MM/yyyy");
+    } else {
+      lastDateMessageAt = format(new Date(date), "hh:mm a");
+    }
+
+    return lastDateMessageAt;
+  };
+
   return (
     <Col xs={0} sm={0} md={6} lg={6} xl={6} xxl={6} className={styles.chatLeft}>
       <Row className={styles.chatLeftHeader}>
-        <UserOutlined className={styles.chatLeftAvatar} />
-        <Title
-          level={4}
-          style={{ marginTop: "10px" }}
-          className={styles.chatLeftTitle}
-        >
+        {userData.profile_image_link ? (
+          <div className={styles.chatLeftProPicContainer}>
+            <Image
+              src={userData.profile_image_link}
+              width={50}
+              height={50}
+              alt="pro-pic"
+              className={styles.chatLeftProPic}
+            />
+          </div>
+        ) : (
+          <UserOutlined className={styles.chatLeftAvatar} />
+        )}
+
+        <Title level={4} className={styles.chatLeftTitle}>
           {userData?.name?.charAt(0).toUpperCase() + userData.name?.slice(1)}
         </Title>
-        <Col className={styles.chatLeftName}></Col>
+        <FormOutlined
+          className={styles.chatLeftCreateIcon}
+          onClick={() => openModal()}
+        />
       </Row>
 
-      <Row className={cx("chatLeftDetails", "chBlock")}>
-        <Row
-          className={
-            styles.chatLeftDetailsHeader +
-            " " +
-            styles.chatLeftDetailsHeaderLink
-          }
-        >
-          <div>
-            <a>
-              {/* {AppIcons.CaretDownOutlined} */}
-              <span className={styles.chatLeftDetailsHeaderText}>Rooms</span>
-              <Tooltip title="Create Room" placement="right">
-                <Button
-                  type="link"
-                  icon={AppIcons.PlusOutlined}
-                  onClick={() => openModal()}
-                ></Button>
-              </Tooltip>
-            </a>
-          </div>
-        </Row>
-
-        <Row>
+      <Row>
+        <Row style={{ width: "100%" }}>
           {groups?.length === 0 ? (
-            <div style={{ color: "white", margin: "5px 0 0 10px " }}>
+            <h2
+              style={{
+                color: "#4d504f",
+                margin: "5px 0 0 15px ",
+              }}
+            >
               Please Create a Room
-            </div>
+            </h2>
           ) : (
-            <div style={{ width: "100%" }} className={styles.chatGroupList}>
+            <div className={styles.chatGroupList}>
               <List
                 grid={{ column: 1, xs: 1 }}
                 dataSource={groups}
-                renderItem={(item: IGroupResponse) => (
-                  <Skeleton loading={loadingGroups} active>
-                    <List.Item className={styles.groupList}>
-                      <div
-                        className={`${styles.groupSelect} ${
-                          currentGroupId === item.id
-                            ? styles.groupSelectSelected
-                            : ""
-                        }`}
-                      >
+                renderItem={(item: IGroupResponse) => {
+                  return (
+                    <Skeleton loading={loadingGroups} active>
+                      <List.Item className={styles.groupList}>
                         <Link href={`/room/${item.id}`}>
-                          <a
-                            onClick={() => handleGroupLink(item.id)}
-                            className={`${styles.groupSelect} ${
-                              currentGroupId === item.id
-                                ? styles.groupSelectSelected
-                                : ""
-                            }`}
-                            style={{ marginLeft: "20px", cursor: "pointer" }}
-                          >
-                            {item.meta.name}
+                          <a onClick={() => handleGroupLink(item.id)}>
+                            <div
+                              className={`${styles.groupSelect} ${
+                                currentGroupId === item.id
+                                  ? styles.groupSelectSelected
+                                  : ""
+                              }`}
+                            >
+                              <div className={styles.groupInfo}>
+                                <div>
+                                  <h3>{item.meta.name}</h3>
+                                  <p>
+                                    {item.last_message
+                                      ? item.last_message.message
+                                      : "New Group Created"}
+                                  </p>
+                                </div>
+                                <div>
+                                  {item.last_message
+                                    ? formatDate(item.last_message.sent_at)
+                                    : formatDate(item.last_message_at)}
+                                </div>
+                              </div>
+                            </div>
                           </a>
                         </Link>
                         {instantMessage?.some(
@@ -227,10 +234,10 @@ const PageLeft = () => {
                           currentGroupId !== item.id && (
                             <span className={styles.chatMessageCount}></span>
                           )}
-                      </div>
-                    </List.Item>
-                  </Skeleton>
-                )}
+                      </List.Item>
+                    </Skeleton>
+                  );
+                }}
               />
             </div>
           )}

@@ -1,18 +1,17 @@
 import { Button, Col, Row } from "antd";
-import { useRouter } from "next/router";
-
 import React, { useEffect, useState } from "react";
-import cookie from "react-cookies";
-import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
-
-import { getSingleGroup } from "../../../features/room/group/redux/get-single-group.slice";
-import GroupDetailModal from "../../../features/room/group/screens/components/GroupDetailModal";
-import Logout from "../../../features/room/group/screens/components/Logout";
-import { IGroupResponse } from "../../../features/room/group/types/group-chat.types";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+
+import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
 import { AppIcons } from "../../AppIcons";
-import styles from "../../../../styles/layout.module.scss";
+import GroupDetailModal from "../../../features/room/group/screens/components/GroupDetailModal";
+import { IGroupResponse } from "../../../features/room/group/types/group-chat.types";
+import Logout from "../../../features/room/group/screens/components/Logout";
 import { ModalTab } from "../../../features/room/group/constants/modal.enum";
+import cookie from "react-cookies";
+import { getSingleGroup } from "../../../features/room/group/redux/get-single-group.slice";
+import styles from "../../../../styles/layout.module.scss";
+import { useRouter } from "next/router";
 
 export const GroupTop = () => {
   const [visibleProfile, setVisibleProfile] = useState(false);

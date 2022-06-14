@@ -1,11 +1,13 @@
 import { Button, Popover } from "antd";
-import { useRouter } from "next/router";
-import React from "react";
-import cookie from "react-cookies";
-import { useAppDispatch } from "../../../../../redux/hooks";
+
 import { AUTH_ACCESS_TOKEN } from "../../../../auth/constants/auth.keys";
 import { AppIcons } from "../../../screens/AppICons";
+import React from "react";
+import cookie from "react-cookies";
 import { getMyGroupsSlice } from "../../redux/getMy-group";
+import style from "../../../../../../styles/layout.module.scss";
+import { useAppDispatch } from "../../../../../redux/hooks";
+import { useRouter } from "next/router";
 
 export interface LogoutProps {
   visibleProfile: boolean;

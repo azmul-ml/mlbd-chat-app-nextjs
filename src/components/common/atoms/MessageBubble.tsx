@@ -1,14 +1,16 @@
-import { Button, Col, Input, List, Row } from "antd";
-import cookie from "react-cookies";
-import moment from "moment";
-import React from "react";
-import { IAllUserRecieved } from "../../../features/user/type/user.types";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { RootState } from "../../../redux/store";
 import { AppIcons, msgActButtons } from "../../AppIcons";
+import { Button, Col, Input, List, Row } from "antd";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+
 import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
+import { IAllUserRecieved } from "../../../features/user/type/user.types";
 import { IDeleteMessage } from "../../../features/room/group/types/group-chat.types";
+import Image from "next/image";
+import React from "react";
+import { RootState } from "../../../redux/store";
+import cookie from "react-cookies";
 import { deleteMessage } from "../../../features/room/group/redux/delete.message";
+import moment from "moment";
 
 export default function MessageBubble({
   styles,
@@ -26,6 +28,8 @@ export default function MessageBubble({
 
   const dispatch = useAppDispatch();
 
+  console.log(message);
+  console.log(getSenderData(message.sender_id)?.profile_image_link);
   return (
     <Col
       span={24}
@@ -35,18 +39,29 @@ export default function MessageBubble({
           : styles.chatMessage
       }
     >
-      <Row className={styles.chatMessageName}>
-        {isMe ? "You" : getSenderData(message.sender_id)?.name}
+      <Row className={styles.chatMessageHeader}>
+        <Col className={styles.chatMessageName}>
+          <span>{getSenderData(message.sender_id)?.name!}&nbsp;·&nbsp;</span>
+        </Col>
         <Col className={styles.chatMessageTime}>
-          <span>{moment(message.sent_at).format("h:m:s")}</span>
+          <span>{moment(message.sent_at).format("hh:mm a")}</span>
         </Col>
       </Row>
 
       <Row className={styles.chatMessageTextPanel}>
-        <Col className={styles.chatMessageText}>
-          {message.message}
-          {/* <Input /> */}
-        </Col>
+        <div className={styles.chatMessageTextPanelImageBlock}>
+          <Image
+            src={getSenderData(message.sender_id)?.profile_image_link!}
+            width={36}
+            height={36}
+            alt="pro-pic"
+            className={styles.chatMessageProPic}
+          />
+          <Col className={styles.chatMessageText}>
+            {message.message}
+            {/* <Input /> */}
+          </Col>
+        </div>
 
         <Col className={styles.chatMessageAction}>
           {AppIcons.MoreOutlined}

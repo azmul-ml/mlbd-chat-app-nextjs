@@ -1,23 +1,23 @@
-import React, { memo, useEffect, useRef, useCallback } from "react";
 import { Button, Col, Row } from "antd";
-import TextArea from "antd/lib/input/TextArea";
-import { useState } from "react";
-import cookie from "react-cookies";
-import { useRouter } from "next/router";
-
-import { AppIcons } from "../../screens/AppICons";
-import styles from "../../../../../styles/layout.module.scss";
 import { IMarkRead, ISentMessage } from "../types/group-chat.types";
-import { AUTH_ACCESS_TOKEN } from "../../../auth/constants/auth.keys";
-import { sendMessage } from "../redux/send-message.slice";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
-import classNames from "classnames/bind";
-import { RootState } from "../../../../redux/store";
-import { useGetMessages } from "../../helpers/hooks";
-import MessageBlock from "./MessageBlock";
+
+import { AUTH_ACCESS_TOKEN } from "../../../auth/constants/auth.keys";
+import { AppIcons } from "../../screens/AppICons";
 import { GroupTop } from "../../../../components/common/molecules/GroupTop";
 import InitialGroupScreen from "./components/InitialGroupScreen";
+import MessageBlock from "./MessageBlock";
+import { RootState } from "../../../../redux/store";
+import TextArea from "antd/lib/input/TextArea";
+import classNames from "classnames/bind";
+import cookie from "react-cookies";
 import { markAsReadThunk } from "../redux/mark.as.read";
+import { sendMessage } from "../redux/send-message.slice";
+import styles from "../../../../../styles/layout.module.scss";
+import { useGetMessages } from "../../helpers/hooks";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 function Chats() {
   const dispatch = useAppDispatch();

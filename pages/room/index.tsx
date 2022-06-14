@@ -1,5 +1,5 @@
-import React from "react";
 import PageLeft from "../../src/components/common/layout/PageLeft";
+import React from "react";
 
 export default function Room() {
   return (
@@ -22,7 +22,7 @@ export default function Room() {
           }}
         >
           <h3 style={{ color: "#0e3752", cursor: "pointer" }}>
-            Create a group for start chat +
+            Create a room to start chatting +
           </h3>
         </div>
       </div>

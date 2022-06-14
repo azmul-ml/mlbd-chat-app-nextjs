@@ -9,6 +9,12 @@ import { AppIcons, msgActButtons } from "../../AppIcons";
 import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
 import { IDeleteMessage } from "../../../features/room/group/types/group-chat.types";
 import { deleteMessage } from "../../../features/room/group/redux/delete.message";
+import Image from "next/image";
+
+const myLoader = ({ src, width, quality }: any) => {
+  // console.log(src, width, quality);
+  return `${src}?w=${width}&q=${quality || 75}`;
+};
 
 export default function MessageBubble({
   styles,
@@ -43,10 +49,23 @@ export default function MessageBubble({
       </Row>
 
       <Row className={styles.chatMessageTextPanel}>
-        <Col className={styles.chatMessageText}>
-          {message.message}
-          {/* <Input /> */}
-        </Col>
+        {message.message.length > 0 && (
+          <Col className={styles.chatMessageText}>
+            {message.message}
+            {/* <Input /> */}
+          </Col>
+        )}
+        {message.attachments.length > 0 && (
+          <Col className={styles.chatMessageText}>
+            <Image
+              loader={myLoader}
+              src={message.attachments[0].url}
+              alt="Picture of the author"
+              width={50}
+              height={50}
+            />
+          </Col>
+        )}
 
         <Col className={styles.chatMessageAction}>
           {AppIcons.MoreOutlined}

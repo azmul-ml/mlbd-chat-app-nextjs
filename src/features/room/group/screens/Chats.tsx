@@ -1,5 +1,10 @@
 import React, { memo, useEffect, useRef, useCallback } from "react";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, Upload, message } from "antd";
+import type { UploadProps } from "antd";
+import { create, CID, IPFSHTTPClient } from "ipfs-http-client";
+
+// const client = create("https://ipfs.infura.io:5001/api/v0");
+
 import TextArea from "antd/lib/input/TextArea";
 import { useState } from "react";
 import cookie from "react-cookies";
@@ -26,9 +31,20 @@ function Chats() {
   const [pageItems, setPageItems] = useState(10);
   const [loaderOn, setLoaderOn] = useState(false);
   const messageList = useGetMessages(pageItems, setLoaderOn);
+  const [image, setImage] = useState("");
   // const syncMessages = useSyncRealtimeMessage(messageList);
   const [message, setMessage] = useState("");
   const cx = classNames.bind(styles);
+  let ipfs: IPFSHTTPClient | undefined;
+
+  try {
+    ipfs = create({
+      url: "https://ipfs.infura.io:5001/api/v0",
+    });
+  } catch (error) {
+    console.error("IPFS error ", error);
+    ipfs = undefined;
+  }
 
   const token = cookie.load(AUTH_ACCESS_TOKEN);
 
@@ -75,6 +91,27 @@ function Chats() {
     }
   };
 
+  const beforeUpload = async (file: any) => {
+    console.log(file);
+
+    const result = await (ipfs as IPFSHTTPClient).add(file);
+    console.log(`https://ipfs.infura.io/ipfs/${result.path}`, result);
+    setImage(`https://ipfs.infura.io/ipfs/${result.path}`);
+    const data: ISentMessage = {
+      group_id: router.query.roomId,
+      // message: message,
+      token: token,
+      attachments: [
+        {
+          mime_type: file.type,
+          title: file.name,
+          url: `https://ipfs.infura.io/ipfs/${result.path}`,
+        },
+      ],
+    };
+    dispatch(sendMessage(data));
+  };
+
   return (
     <Col
       xs={24}
@@ -114,20 +151,21 @@ function Chats() {
                 />
                 <Button onClick={handleSentMessage}>Send</Button>
               </Col>
-              {/* <Col className={styles.chatComposeActions}>
-            <Col className={styles.chatComposeActionsEditor}>
-              Editor buttons
-            </Col>
-            <Col className={styles.chatComposeActionsAttachments}>
-              <Button type="link" icon={AppIcons.LinkOutlined}></Button>
+              <Col className={styles.chatComposeActions}>
+                <Col className={styles.chatComposeActionsEditor}>
+                  Editor buttons
+                </Col>
+                <Col className={styles.chatComposeActionsAttachments}>
+                  {/* <Button type="link" icon={AppIcons.LinkOutlined}></Button>
 
-              <Button type="link" icon={AppIcons.LikeFilled}></Button>
+                  <Button type="link" icon={AppIcons.LikeFilled}></Button> */}
+                  <Upload beforeUpload={beforeUpload}>
+                    <Button type="link" icon={AppIcons.CameraFilled}></Button>
+                  </Upload>
 
-              <Button type="link" icon={AppIcons.CameraFilled}></Button>
-
-              <Button type="link" icon={AppIcons.UploadOutlined}></Button>
-            </Col>
-          </Col> */}
+                  {/* <Button type="link" icon={AppIcons.UploadOutlined}></Button> */}
+                </Col>
+              </Col>
             </form>
           </Row>
         </>

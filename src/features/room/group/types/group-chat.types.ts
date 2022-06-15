@@ -62,8 +62,15 @@ export interface IAddMember {
   user_ids: string[];
 }
 
+export interface IAttachement {
+  id: string;
+  mime_type: string;
+  title: string;
+  url: string;
+}
+
 export interface IMessageRecieve {
-  attachments: [];
+  attachments: IAttachement[];
   group_id: string;
   id: string;
   mentions: [];

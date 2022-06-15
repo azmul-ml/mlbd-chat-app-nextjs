@@ -74,23 +74,31 @@ export default function MessageBubble({
           <Col
             className={`${styles.chatMessageImage} ${styles.chatMessageTextPanel}`}
           >
-            <Image
-              src={getSenderData(message.sender_id)?.profile_image_link!}
-              width={36}
-              height={36}
-              alt="pro-pic"
-              className={styles.chatMessageProPic}
-            />
-            <Image
-              loader={myLoader}
-              src={message.attachments[0].url}
-              alt="Picture of the author"
-              placeholder="blur"
-              blurDataURL="message.attachments[0].url"
-              height={200}
-              width={250}
-              objectFit="contain"
-            />
+            <div className={styles.chatMessageAttachmentPanelImageBlock}>
+              <Image
+                src={
+                  getSenderData(message.sender_id)
+                    ? getSenderData(message.sender_id)?.profile_image_link!
+                    : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+                }
+                width={36}
+                height={36}
+                alt="pro-pic"
+                className={styles.chatMessageProPic}
+              />
+              <Col className={styles.chatMessageAttachment}>
+                <Image
+                  loader={myLoader}
+                  src={message.attachments[0].url}
+                  alt="Picture of the author"
+                  placeholder="blur"
+                  blurDataURL="message.attachments[0].url"
+                  height={200}
+                  width={250}
+                  objectFit="contain"
+                />
+              </Col>
+            </div>
           </Col>
         )}
 

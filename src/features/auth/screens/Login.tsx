@@ -35,11 +35,6 @@ export default function Login() {
          ** the group response the first screen will appear
          */
         await dispatch(getMyGroup(data));
-
-        /**
-         * Get list of users
-         */
-        await dispatch(getUsers());
       }
     } finally {
       setIsSubmit(false);
@@ -66,6 +61,13 @@ export default function Login() {
     }
   }, [groups, router]);
 
+  useEffect(() => {
+    /*
+     ** Fetch users when login page renders
+     */
+    dispatch(getUsers());
+  }, []);
+
   const onLoginWithUser = async (userName: string) => {
     const values = {
       email: `${userName}@gmail.com`,
@@ -83,11 +85,6 @@ export default function Login() {
        ** the group response the first screen will appear
        */
       await dispatch(getMyGroup(data));
-
-      /**
-       * Get list of users
-       */
-      await dispatch(getUsers());
     }
   };
 

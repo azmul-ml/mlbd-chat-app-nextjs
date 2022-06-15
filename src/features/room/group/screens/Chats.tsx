@@ -1,29 +1,27 @@
-import React, { memo, useEffect, useRef, useCallback } from "react";
 import { Button, Col, Row, Upload, message } from "antd";
-import type { UploadProps } from "antd";
-import { create, CID, IPFSHTTPClient } from "ipfs-http-client";
-
-// const client = create("https://ipfs.infura.io:5001/api/v0");
-
-import TextArea from "antd/lib/input/TextArea";
-import { useState } from "react";
-import cookie from "react-cookies";
-import { useRouter } from "next/router";
-
-import { AppIcons } from "../../screens/AppICons";
-import styles from "../../../../../styles/layout.module.scss";
+import { CID, IPFSHTTPClient, create } from "ipfs-http-client";
 import { IMarkRead, ISentMessage } from "../types/group-chat.types";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 
 import { AUTH_ACCESS_TOKEN } from "../../../auth/constants/auth.keys";
+import { AppIcons } from "../../screens/AppICons";
 import { GroupTop } from "../../../../components/common/molecules/GroupTop";
 import InitialGroupScreen from "./components/InitialGroupScreen";
 import MessageBlock from "./MessageBlock";
 import { RootState } from "../../../../redux/store";
+import TextArea from "antd/lib/input/TextArea";
+import type { UploadProps } from "antd";
 import classNames from "classnames/bind";
+import cookie from "react-cookies";
 import { markAsReadThunk } from "../redux/mark.as.read";
 import { sendMessage } from "../redux/send-message.slice";
+import styles from "../../../../../styles/layout.module.scss";
 import { useGetMessages } from "../../helpers/hooks";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
+// const client = create("https://ipfs.infura.io:5001/api/v0");
 
 function Chats() {
   const dispatch = useAppDispatch();
@@ -152,9 +150,7 @@ function Chats() {
                 <Button onClick={handleSentMessage}>Send</Button>
               </Col>
               <Col className={styles.chatComposeActions}>
-                <Col className={styles.chatComposeActionsEditor}>
-                  Editor buttons
-                </Col>
+                <Col className={styles.chatComposeActionsEditor}> </Col>
                 <Col className={styles.chatComposeActionsAttachments}>
                   {/* <Button type="link" icon={AppIcons.LinkOutlined}></Button>
 

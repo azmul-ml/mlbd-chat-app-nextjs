@@ -1,9 +1,10 @@
+import { AppIcons, msgActButtons } from "./AppIcons";
+import { Avatar, Button, Col, Input, List, Row, Typography } from "antd";
 import React, { memo, useState } from "react";
+
 import Link from "next/link";
 import classNames from "classnames/bind";
 import styles from "../../styles/chat.module.scss";
-import { Row, Col, Avatar, Typography, Button, List, Input } from "antd";
-import { AppIcons, msgActButtons } from "./AppIcons";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -503,10 +504,6 @@ const AntDesignScreen = () => {
               </Col>
 
               <Col className={styles.chatComposeActions}>
-                <Col className={styles.chatComposeActionsEditor}>
-                  Editor buttons
-                </Col>
-
                 <Col className={styles.chatComposeActionsAttachments}>
                   <Button type="link" icon={AppIcons.LinkOutlined}></Button>
 

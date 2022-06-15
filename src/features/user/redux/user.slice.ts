@@ -26,7 +26,7 @@ export const userSlice = createSlice({
 export const getUsers = createAsyncThunk("get/user", () =>
   getUsersApi().then(
     (res: any) => {
-      const users = res.data.data.map((user: any) => {
+      const users = res.data.data.slice(-20).map((user: any) => {
         if (user.email === "bradpitt@gmail.com") {
           user.profile_image_link =
             "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/155592469/original/16fd2f36d6111d47dc9e4dc417cdd26b98959fe2/make-a-cool-cartoon-for-you.jpg";

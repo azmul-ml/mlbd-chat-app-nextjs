@@ -13,16 +13,17 @@ import { useRouter } from "next/router";
 import { AppIcons } from "../../screens/AppICons";
 import styles from "../../../../../styles/layout.module.scss";
 import { IMarkRead, ISentMessage } from "../types/group-chat.types";
-import { AUTH_ACCESS_TOKEN } from "../../../auth/constants/auth.keys";
-import { sendMessage } from "../redux/send-message.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
-import classNames from "classnames/bind";
-import { RootState } from "../../../../redux/store";
-import { useGetMessages } from "../../helpers/hooks";
-import MessageBlock from "./MessageBlock";
+
+import { AUTH_ACCESS_TOKEN } from "../../../auth/constants/auth.keys";
 import { GroupTop } from "../../../../components/common/molecules/GroupTop";
 import InitialGroupScreen from "./components/InitialGroupScreen";
+import MessageBlock from "./MessageBlock";
+import { RootState } from "../../../../redux/store";
+import classNames from "classnames/bind";
 import { markAsReadThunk } from "../redux/mark.as.read";
+import { sendMessage } from "../redux/send-message.slice";
+import { useGetMessages } from "../../helpers/hooks";
 
 function Chats() {
   const dispatch = useAppDispatch();

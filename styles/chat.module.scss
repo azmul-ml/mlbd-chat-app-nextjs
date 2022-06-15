@@ -444,14 +444,6 @@
         background: #e9f3f9;
         border: 1px solid #dee8ef;
         margin: 0 0 0 20px;
-
-        &::before {
-          border-right: 0 solid transparent;
-          border-left: 10px solid transparent;
-          border-bottom-color: #dee8ef;
-          left: auto;
-          right: 15px;
-        }
       }
 
       .chatMessageAction {

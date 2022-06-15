@@ -10,6 +10,7 @@ import { LoginOutlined } from "@ant-design/icons";
 import Styles from "../../../../styles/Login.module.scss";
 import cookie from "react-cookies";
 import { getMyGroup } from "../../room/group/redux/getMy-group";
+import { getUsers } from "../../user/redux/user.slice";
 import { loginUser } from "../redux/auth.slice";
 import { useRouter } from "next/router";
 
@@ -34,6 +35,11 @@ export default function Login() {
          ** the group response the first screen will appear
          */
         await dispatch(getMyGroup(data));
+
+        /**
+         * Get list of users
+         */
+        await dispatch(getUsers());
       }
     } finally {
       setIsSubmit(false);
@@ -77,6 +83,11 @@ export default function Login() {
        ** the group response the first screen will appear
        */
       await dispatch(getMyGroup(data));
+
+      /**
+       * Get list of users
+       */
+      await dispatch(getUsers());
     }
   };
 

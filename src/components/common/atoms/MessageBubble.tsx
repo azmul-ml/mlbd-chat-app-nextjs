@@ -1,5 +1,3 @@
-import { Skeleton } from "antd";
-import moment from "moment";
 import { AppIcons, msgActButtons } from "../../AppIcons";
 import { Button, Col, Input, List, Row } from "antd";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
@@ -7,11 +5,13 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
 import { IAllUserRecieved } from "../../../features/user/type/user.types";
 import { IDeleteMessage } from "../../../features/room/group/types/group-chat.types";
+import Image from "next/image";
 import React from "react";
 import { RootState } from "../../../redux/store";
+import { Skeleton } from "antd";
 import cookie from "react-cookies";
 import { deleteMessage } from "../../../features/room/group/redux/delete.message";
-import Image from "next/image";
+import moment from "moment";
 
 const myLoader = ({ src, width, quality }: any) => {
   // console.log(src, width, quality);
@@ -36,8 +36,6 @@ export default function MessageBubble({
 
   const dispatch = useAppDispatch();
 
-  console.log(message);
-  console.log(getSenderData(message.sender_id)?.profile_image_link);
   return (
     <Col
       span={24}

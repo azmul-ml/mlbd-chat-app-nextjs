@@ -2,29 +2,30 @@ import {
   Avatar,
   Button,
   List,
-  Tabs,
-  Typography,
   Popconfirm,
   Select,
   Spin,
+  Tabs,
+  Typography,
 } from "antd";
-import { DeleteFilled } from "@ant-design/icons";
-
-import cookie from "react-cookies";
-import moment from "moment";
-import React, { useEffect, useState, useCallback } from "react";
-import CustomModal from "../../../../../components/common/atoms/Modal";
-import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
-import { RootState } from "../../../../../redux/store";
 import { IAddMember, IGroupResponse } from "../../types/group-chat.types";
+import React, { useCallback, useEffect, useState } from "react";
+import { getUsers, userSlice } from "../../../../user/redux/user.slice";
+import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
+
 import { AUTH_ACCESS_TOKEN } from "../../../../auth/constants/auth.keys";
+import CustomModal from "../../../../../components/common/atoms/Modal";
+import { DeleteFilled } from "@ant-design/icons";
+import { IGetAllUser } from "../../../../user/type/user.types";
+import { ModalTab } from "../../constants/modal.enum";
+import { RootState } from "../../../../../redux/store";
+import { addGroupMemberSlice } from "../../redux/add.group.member.slice";
+import cookie from "react-cookies";
+import { deleteGroup } from "../../redux/delete.group.slice";
+import moment from "moment";
+import { removeGroupMemberSlice } from "../../redux/remove.member";
 import { updateGroup } from "../../redux/update.group";
 import { useRouter } from "next/router";
-import { deleteGroup } from "../../redux/delete.group.slice";
-import { ModalTab } from "../../constants/modal.enum";
-import { getUsers, userSlice } from "../../../../user/redux/user.slice";
-import { addGroupMemberSlice } from "../../redux/add.group.member.slice";
-import { removeGroupMemberSlice } from "../../redux/remove.member";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -46,7 +47,9 @@ export default function GroupDetailModal({
   const users = useAppSelector((state: RootState) => state.user);
   const groups = useAppSelector((state) => state.groups.data);
   const [loadingUsers, setLoadingUsers] = useState(false);
-  const [currentGroupUsers, setCurrentGroupUsers] = useState([]);
+  const [currentGroupUsers, setCurrentGroupUsers] = useState<
+    IGetAllUser[] | undefined
+  >([]);
   const instantGroupMemberAdd = useAppSelector(
     (state) => state.onGroupMemberAdded.data
   );
@@ -75,7 +78,7 @@ export default function GroupDetailModal({
   useEffect(() => {
     if (instantGroupMemberAdd) {
       const groupMember = instantGroupMemberAdd.user_ids?.map(
-        (member) =>
+        (member: any) =>
           users.filter((user) => {
             if (member === user._id) {
               return user;
@@ -157,10 +160,10 @@ export default function GroupDetailModal({
               display: "flex",
               height: "50px",
               alignItems: "center",
-              border: "solid blue 1px",
-              background: "#0e3752",
+              border: "solid #4d504f 1px",
+              background: "white",
               borderRadius: "5px",
-              color: "whitesmoke",
+              color: "#4d504f",
               marginBottom: "10px",
               justifyContent: "space-around",
             }}
@@ -169,15 +172,13 @@ export default function GroupDetailModal({
               style={{
                 fontWeight: "bold",
                 marginRight: "100px",
-                marginLeft: "30px",
               }}
             >
-              Change Name:
+              Change Name
             </div>{" "}
             <Text
-              style={{ color: "whitesmoke" }}
+              style={{ color: "#4d504f" }}
               editable={{ onChange: handleNameEdit }}
-              keyboard
             >
               {!instantUpdatedGroup && groupDetail?.meta.name}
               {instantUpdatedGroup && instantUpdatedGroup?.meta.name}
@@ -188,10 +189,10 @@ export default function GroupDetailModal({
               display: "flex",
               height: "50px",
               alignItems: "center",
-              border: "solid blue 1px",
-              background: "#0e3752",
+              border: "solid #4d504f 1px",
+              background: "white",
               borderRadius: "5px",
-              color: "whitesmoke",
+              color: "#4d504f",
               marginBottom: "10px",
               justifyContent: "space-around",
             }}
@@ -202,7 +203,7 @@ export default function GroupDetailModal({
                 marginRight: "100px",
               }}
             >
-              Created On:
+              Created On
             </div>
 
             <div>{moment(groupDetail?.created_at).format("MMMM Do YYYY")}</div>
@@ -212,10 +213,10 @@ export default function GroupDetailModal({
               display: "flex",
               height: "50px",
               alignItems: "center",
-              border: "solid blue 1px",
-              background: "#0e3752",
+              border: "solid #4d504f 1px",
+              background: "white",
               borderRadius: "5px",
-              color: "whitesmoke",
+              color: "#4d504f",
               justifyContent: "space-around",
             }}
           >
@@ -225,10 +226,10 @@ export default function GroupDetailModal({
                 marginRight: "100px",
               }}
             >
-              Delete this group
+              Delete This Room
             </div>
             <Popconfirm
-              title="Are you sure to delete this Group?"
+              title="Are you sure to delete this Room?"
               onConfirm={handleGroupDelete}
               // onCancel={cancel}
               okText="Yes"
@@ -280,10 +281,10 @@ export default function GroupDetailModal({
           <List
             itemLayout="horizontal"
             dataSource={currentGroupUsers}
-            renderItem={(item) => (
+            renderItem={(item: any) => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                  avatar={<Avatar src={item?.profile_image_link!} />}
                   title={
                     <a href="https://ant.design">{item?.name?.toUpperCase()}</a>
                   }

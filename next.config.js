@@ -8,6 +8,7 @@ module.exports = {
       "i.etsystatic.com",
       "pbs.twimg.com",
       "www.seekpng.com",
+      "www.kindpng.com",
     ],
   },
 };

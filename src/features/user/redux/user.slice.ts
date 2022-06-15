@@ -39,6 +39,9 @@ export const getUsers = createAsyncThunk("get/user", () =>
         } else if (user.email === "kimwest@gmail.com") {
           user.profile_image_link =
             "https://www.seekpng.com/png/small/200-2009935_toilet-png-by-dianasurvive-cool-profile-pics-gaming.png";
+        } else {
+          user.profile_image_link =
+            "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
         }
 
         return user;

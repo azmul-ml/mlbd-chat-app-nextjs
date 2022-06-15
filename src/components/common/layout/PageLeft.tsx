@@ -212,8 +212,11 @@ const PageLeft = () => {
                                 <div>
                                   <h3>{item.meta.name}</h3>
                                   <p>
-                                    {item.last_message
+                                    {item.last_message &&
+                                    item.last_message.message
                                       ? item.last_message.message
+                                      : item.last_message?.attachments.length
+                                      ? "📎 Attachment"
                                       : "New Group Created"}
                                   </p>
                                 </div>
@@ -221,19 +224,24 @@ const PageLeft = () => {
                                   {item.last_message
                                     ? formatDate(item.last_message.sent_at)
                                     : formatDate(item.last_message_at)}
+
+                                  <div style={{ textAlign: "end" }}>
+                                    {instantMessage?.some(
+                                      (msg: any) =>
+                                        msg.group_id === item.id &&
+                                        userData.user_id !== msg.sender_id
+                                    ) &&
+                                      currentGroupId !== item.id && (
+                                        <span
+                                          className={styles.chatMessageCount}
+                                        ></span>
+                                      )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </a>
                         </Link>
-                        {instantMessage?.some(
-                          (msg: any) =>
-                            msg.group_id === item.id &&
-                            userData.user_id !== msg.sender_id
-                        ) &&
-                          currentGroupId !== item.id && (
-                            <span className={styles.chatMessageCount}></span>
-                          )}
                       </List.Item>
                     </Skeleton>
                   );

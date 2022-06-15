@@ -205,7 +205,7 @@
       display: inline-block;
       font-size: 12px;
       font-weight: normal;
-      margin: 0 0 0 10px;
+      margin: 0;
 
       &::before {
         background: #c50101;
@@ -213,7 +213,7 @@
         content: "";
         display: inline-block;
         height: 8px;
-        margin: 0 5px 0 0;
+        margin: 0;
         width: 8px;
       }
     }
@@ -349,7 +349,7 @@
 
       &Panel {
         display: flex;
-        padding: 5px 0 0;
+        padding: 0;
         align-items: center;
 
         &:hover .chatMessageAction {
@@ -358,6 +358,18 @@
 
         &ImageBlock {
           display: flex;
+        }
+      }
+    }
+
+    &Attachment {
+      &PanelImageBlock {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & .chatMessageAttachment {
+          margin: 0 0 0 15px !important;
         }
       }
     }
@@ -431,7 +443,6 @@
       }
 
       .chatMessageTextPanel {
-        padding-top: 5px;
         justify-content: flex-end;
       }
 
@@ -444,6 +455,15 @@
 
       .chatMessageTextPanelImageBlock {
         flex-direction: row-reverse;
+      }
+
+      .chatMessageAttachmentPanelImageBlock {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+
+      .chatMessageAttachment {
+        margin: 0 15px 0 0 !important;
       }
 
       .chatMessageAction {

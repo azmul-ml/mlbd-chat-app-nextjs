@@ -35,7 +35,6 @@ export default function MessageBubble({
     users.find((usr: IAllUserRecieved) => usr._id === senderId);
 
   const dispatch = useAppDispatch();
-
   return (
     <Col
       span={24}
@@ -58,7 +57,11 @@ export default function MessageBubble({
         {message.message.length > 0 && (
           <div className={styles.chatMessageTextPanelImageBlock}>
             <Image
-              src={getSenderData(message.sender_id)?.profile_image_link!}
+              src={
+                getSenderData(message.sender_id)
+                  ? getSenderData(message.sender_id)?.profile_image_link!
+                  : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+              }
               width={36}
               height={36}
               alt="pro-pic"
@@ -93,7 +96,7 @@ export default function MessageBubble({
                   alt="Picture of the author"
                   placeholder="blur"
                   blurDataURL="message.attachments[0].url"
-                  height={200}
+                  height={140}
                   width={250}
                   objectFit="contain"
                 />

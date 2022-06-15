@@ -1,4 +1,4 @@
-import { Button, Col, Input, List, Row } from "antd";
+import { Button, Col, Input, List, Row, Skeleton } from "antd";
 import cookie from "react-cookies";
 import moment from "moment";
 import React from "react";
@@ -20,10 +20,12 @@ export default function MessageBubble({
   styles,
   message,
   userData,
+  imageLoading,
 }: {
   styles: any;
   message: any;
   userData: any;
+  imageLoading: boolean;
 }) {
   const users = useAppSelector((state: RootState) => state.user);
   const isMe = message.sender_id === userData?.user_id;
@@ -50,19 +52,22 @@ export default function MessageBubble({
 
       <Row className={styles.chatMessageTextPanel}>
         {message.message.length > 0 && (
-          <Col className={styles.chatMessageText}>
-            {message.message}
-            {/* <Input /> */}
-          </Col>
+          <Col className={styles.chatMessageText}>{message.message}</Col>
         )}
         {message.attachments.length > 0 && (
-          <Col className={styles.chatMessageText}>
+          <Col
+            className={styles.chatMessageImage}
+            style={{ width: "100%", height: "100%", position: "relative" }}
+          >
             <Image
               loader={myLoader}
               src={message.attachments[0].url}
               alt="Picture of the author"
-              width={50}
-              height={50}
+              placeholder="blur"
+              blurDataURL="message.attachments[0].url"
+              height={200}
+              width={250}
+              objectFit="contain"
             />
           </Col>
         )}

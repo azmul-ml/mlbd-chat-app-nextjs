@@ -31,7 +31,7 @@ function Chats() {
   const [pageItems, setPageItems] = useState(10);
   const [loaderOn, setLoaderOn] = useState(false);
   const messageList = useGetMessages(pageItems, setLoaderOn);
-  const [image, setImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
   // const syncMessages = useSyncRealtimeMessage(messageList);
   const [message, setMessage] = useState("");
   const cx = classNames.bind(styles);
@@ -77,7 +77,7 @@ function Chats() {
         message: message,
         token: token,
       };
-      dispatch(sendMessage(data));
+      dispatch(sendMessage({ data, setImageLoading }));
     }
   };
 
@@ -95,8 +95,6 @@ function Chats() {
     console.log(file);
 
     const result = await (ipfs as IPFSHTTPClient).add(file);
-    console.log(`https://ipfs.infura.io/ipfs/${result.path}`, result);
-    setImage(`https://ipfs.infura.io/ipfs/${result.path}`);
     const data: ISentMessage = {
       group_id: router.query.roomId,
       // message: message,
@@ -109,7 +107,7 @@ function Chats() {
         },
       ],
     };
-    dispatch(sendMessage(data));
+    dispatch(sendMessage({ data, setImageLoading }));
   };
 
   return (
@@ -135,6 +133,7 @@ function Chats() {
               handlePageItem={handlePageItem}
               pageItems={pageItems}
               loaderOn={loaderOn}
+              imageLoading={imageLoading}
             />
           </Row>
 
@@ -159,7 +158,8 @@ function Chats() {
                   {/* <Button type="link" icon={AppIcons.LinkOutlined}></Button>
 
                   <Button type="link" icon={AppIcons.LikeFilled}></Button> */}
-                  <Upload beforeUpload={beforeUpload}>
+                  {console.log(imageLoading)}
+                  <Upload showUploadList={false} beforeUpload={beforeUpload}>
                     <Button type="link" icon={AppIcons.CameraFilled}></Button>
                   </Upload>
 

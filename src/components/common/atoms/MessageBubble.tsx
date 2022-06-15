@@ -1,3 +1,5 @@
+import { Skeleton } from "antd";
+import moment from "moment";
 import { AppIcons, msgActButtons } from "../../AppIcons";
 import { Button, Col, Input, List, Row } from "antd";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
@@ -5,21 +7,27 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { AUTH_ACCESS_TOKEN } from "../../../features/auth/constants/auth.keys";
 import { IAllUserRecieved } from "../../../features/user/type/user.types";
 import { IDeleteMessage } from "../../../features/room/group/types/group-chat.types";
-import Image from "next/image";
 import React from "react";
 import { RootState } from "../../../redux/store";
 import cookie from "react-cookies";
 import { deleteMessage } from "../../../features/room/group/redux/delete.message";
-import moment from "moment";
+import Image from "next/image";
+
+const myLoader = ({ src, width, quality }: any) => {
+  // console.log(src, width, quality);
+  return `${src}?w=${width}&q=${quality || 75}`;
+};
 
 export default function MessageBubble({
   styles,
   message,
   userData,
+  imageLoading,
 }: {
   styles: any;
   message: any;
   userData: any;
+  imageLoading: boolean;
 }) {
   const users = useAppSelector((state: RootState) => state.user);
   const isMe = message.sender_id === userData?.user_id;
@@ -49,19 +57,44 @@ export default function MessageBubble({
       </Row>
 
       <Row className={styles.chatMessageTextPanel}>
-        <div className={styles.chatMessageTextPanelImageBlock}>
-          <Image
-            src={getSenderData(message.sender_id)?.profile_image_link!}
-            width={36}
-            height={36}
-            alt="pro-pic"
-            className={styles.chatMessageProPic}
-          />
-          <Col className={styles.chatMessageText}>
-            {message.message}
-            {/* <Input /> */}
+        {message.message.length > 0 && (
+          <div className={styles.chatMessageTextPanelImageBlock}>
+            <Image
+              src={getSenderData(message.sender_id)?.profile_image_link!}
+              width={36}
+              height={36}
+              alt="pro-pic"
+              className={styles.chatMessageProPic}
+            />
+            <Col className={styles.chatMessageText}>
+              {message.message}
+              {/* <Input /> */}
+            </Col>
+          </div>
+        )}
+        {message.attachments.length > 0 && (
+          <Col
+            className={`${styles.chatMessageImage} ${styles.chatMessageTextPanel}`}
+          >
+            <Image
+              src={getSenderData(message.sender_id)?.profile_image_link!}
+              width={36}
+              height={36}
+              alt="pro-pic"
+              className={styles.chatMessageProPic}
+            />
+            <Image
+              loader={myLoader}
+              src={message.attachments[0].url}
+              alt="Picture of the author"
+              placeholder="blur"
+              blurDataURL="message.attachments[0].url"
+              height={200}
+              width={250}
+              objectFit="contain"
+            />
           </Col>
-        </div>
+        )}
 
         <Col className={styles.chatMessageAction}>
           {AppIcons.MoreOutlined}

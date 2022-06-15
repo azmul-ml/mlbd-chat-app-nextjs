@@ -19,6 +19,7 @@ interface IMessageBLock {
   handlePageItem: (items: number) => void;
   pageItems: number;
   loaderOn: boolean;
+  imageLoading: boolean;
 }
 
 function MessageBlock({
@@ -28,6 +29,7 @@ function MessageBlock({
   handlePageItem,
   pageItems,
   loaderOn,
+  imageLoading,
 }: IMessageBLock) {
   const router = useRouter();
   const [dates, setDates] = useState<any>([]);
@@ -120,6 +122,7 @@ function MessageBlock({
                 styles={styles}
                 message={message}
                 userData={userData}
+                imageLoading={imageLoading}
               />
             )}
           </div>

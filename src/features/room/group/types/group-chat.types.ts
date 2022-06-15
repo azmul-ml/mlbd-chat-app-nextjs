@@ -42,8 +42,13 @@ export interface IMarkRead {
 
 export interface ISentMessage {
   group_id: string | undefined | string[];
-  message: string;
+  message?: string;
   token: string;
+  attachments?: {
+    title: string;
+    mime_type: string;
+    url: string;
+  }[];
 }
 
 export interface IDeleteMessage {

@@ -362,6 +362,19 @@
       }
     }
 
+    &Image {
+      max-width: 80%;
+      position: relative;
+
+      &Panel {
+        display: flex;
+
+        &:hover .chatMessageAction {
+          display: block;
+        }
+      }
+    }
+
     &Action {
       display: none;
       padding: 7px 0 0;
